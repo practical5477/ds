@@ -1,0 +1,44 @@
+pract 3 
+FeatureScaling&_Dummification
+
+
+import pandas as pd
+from sklearn import preprocessing
+
+# Jupyter magic command (not for .py files)
+# %matplotlib inline
+
+# Load data and drop missing values
+data = pd.read_csv('Data_for_Missing_Values.csv')
+data = data.dropna()
+
+# Calculate mean and median before feature scaling
+print("Mean before scaling:\n", data.select_dtypes(include=['number']).mean())
+print("\nMedian before scaling:\n", data.select_dtypes(include=['number']).median())
+
+# Slicing numeric features (e.g., Age and Salary)
+features = data.iloc[:, 1:3].values  # assuming columns 1 and 2 are numeric
+
+# Min-Max Scaling
+min_max_scaler = preprocessing.MinMaxScaler(feature_range=(0, 1))
+features_minmax = min_max_scaler.fit_transform(features)
+print("\nFeatures after Min-Max Scaling:\n", features_minmax)
+
+# Standardization
+scaler = preprocessing.StandardScaler()
+features_standardized = scaler.fit_transform(features)
+print("\nFeatures after Standardization:\n", features_standardized)
+
+# Mean after Min-Max scaling
+print("\nMean after Min-Max Scaling:\n", features_minmax.mean())
+
+# ---- Dummification Part ----
+
+# Load another dataset
+bio_df = pd.read_csv("biostatsD.csv")
+
+# Create dummy variables for 'Gender'
+bio_df_dummies = pd.get_dummies(bio_df, columns=['Gender'])
+
+# Print the dummified DataFrame
+print("\nDummified DataFrame:\n", bio_df_dummies)

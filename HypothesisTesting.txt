@@ -1,0 +1,78 @@
+pract 4 
+HypothesisTesting
+
+import pandas as pd
+from scipy import stats
+
+# Load the CSV file into a DataFrame
+df = pd.read_csv("grades.csv")
+print(df)
+# Perform paired t-test
+t_statistic, p_value = stats.ttest_rel(df['Before'], df['After'])
+
+# Print the results
+print("T-statistic:", t_statistic)
+print("P-value:", p_value)
+
+# Interpret the results
+alpha = 0.05
+if p_value < alpha:
+    print("Reject the null hypothesis: The course has a significant effect on the grades.")
+else:
+    print("Fail to reject the null hypothesis: The course does not have a significant effect on the grades.")
+
+
+
+
+from scipy.stats import ttest_1samp
+
+# Sample data: Delivery times (in minutes)
+delivery_times = [28, 32, 30, 35, 29, 27, 31, 34, 33, 29]
+# Hypothesized population mean
+hypothesized_mean = 30
+# Perform one-sample t-test
+t_stat, p_value = ttest_1samp(delivery_times, hypothesized_mean)
+# Print results
+print("T-statistic:", t_stat)
+print("P-value:", p_value)
+# Significance level
+alpha = 0.05
+# Interpret results
+print("\nHypotheses:")
+print("Null Hypothesis (H0): The mean delivery time is 30 minutes.")
+print("Alternate Hypothesis (H1): The mean delivery time is not 30 minutes.")
+
+if p_value < alpha:
+    print(f"\nResult: Reject the null hypothesis (p = {p_value:.4f} < {alpha}).")
+    print("Conclusion: The mean delivery time is significantly different from 30 minutes.")
+else:
+    print(f"\nResult: Fail to reject the null hypothesis (p = {p_value:.4f} ≥ {alpha}).")
+    print("Conclusion: There is no significant evidence that the mean delivery time differs from 30 minutes.")
+
+
+
+
+import numpy as np
+import scipy.stats as stats
+
+# Create a dummy dataset of 10 year old children's weight
+data = np.random.randint(20, 40, 10)
+
+# Define the null hypothesis
+H0 = "The average weight of 10 year old children is 32kg."
+
+# Define the alternative hypothesis
+H1 = "The average weight of 10 year old children is more than 32kg."
+
+# Calculate the test statistic
+t_stat, p_value = stats.ttest_1samp(data, 32)
+
+# Print the results
+print("Test statistic:", t_stat)
+print("p-value:", p_value)
+
+# Conclusion
+if p_value < 0.05:
+    print("Reject the null hypothesis.")
+else:
+    print("Fail to reject the null hypothesis.")

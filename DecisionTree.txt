@@ -1,0 +1,50 @@
+DecisionTree
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+import matplotlib.pyplot as plt
+
+# Load the Heart Disease dataset
+heart_data = pd.read_csv("heart.csv")
+
+# Split the data into features (X) and target variable (y)
+X = heart_data.drop(columns='target')
+y = heart_data['target']
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Construct a decision tree model
+model = DecisionTreeClassifier(max_depth=3)
+model.fit(X_train, y_train)
+
+# Visualize the decision tree
+plt.figure(figsize=(12, 8))
+plot_tree(model, feature_names=X.columns, class_names=['No Disease', 'Disease'], filled=True)
+plt.show()
+
+
+
+
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report
+
+# Predict the target variable for the test set
+y_pred = model.predict(X_test)
+
+# Calculate classification metrics
+accuracy = accuracy_score(y_test, y_pred)
+precision = precision_score(y_test, y_pred)
+recall = recall_score(y_test, y_pred)
+f1 = f1_score(y_test, y_pred)
+
+# Display the metrics
+print(f"Model Performance Metrics:")
+print(f"Accuracy:  {accuracy:.2f}")
+print(f"Precision: {precision:.2f}")
+print(f"Recall:    {recall:.2f}")
+print(f"F1-Score:  {f1:.2f}")
+
+# Full classification report
+print("\nClassification Report:\n")
+print(classification_report(y_test, y_pred, target_names=['No Disease', 'Disease']))
